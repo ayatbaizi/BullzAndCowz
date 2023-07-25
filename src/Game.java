@@ -7,28 +7,28 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class BullsAndCows {
+public class Game {
     private int numberOfAttempts;
     private int gameNumber;
     private LocalDateTime gameDateTime;
     private String secretNumber;
     private List<String> gameLog;
 
-    public BullsAndCows() {
+    public Game() {
         this.numberOfAttempts = 0;
         this.gameNumber = 0;
         this.secretNumber = "";
         this.gameLog = new ArrayList<String>();
     }
-
+    ResultReader resultReader = new ResultReader();
     public void startGame() {
-        this.gameNumber = getLastGameNumber() + 1;
+        this.gameNumber = resultReader.getLastGameNumber() + 1;
         this.gameDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         String gameDateTimeString = this.gameDateTime.format(formatter);
         this.secretNumber = generateSecretNumber();
-        this.gameLog.add(String.format("Game #%d %s Secret number: %s", this.gameNumber, gameDateTimeString, this.secretNumber));
-        System.out.println(String.format("Game #%d started! Try to guess the secret number consisting of 4 different digits.", this.gameNumber));
+        this.gameLog.add(String.format("Game #%d %s Загаданная строка: %s", this.gameNumber, gameDateTimeString, this.secretNumber));
+        System.out.println(String.format("Game #%d началась! Попытайся угадать четырехзначное число", this.gameNumber));
     }
 
     public int getNumberOfAttempts() {
@@ -47,8 +47,10 @@ public class BullsAndCows {
                 cows++;
             }
         }
-        String result = String.format("%d быки %d коровы", bulls, cows);
-        this.gameLog.add(String.format("Guess #%d: %s -> %s", this.numberOfAttempts, guess, result));
+        String result = String.format("%d %s %d %s", bulls, (bulls == 1 ? "бык" : "быка"), cows,
+                (cows == 1 ? "корова" : (cows >= 2 && cows <= 4 ? "коровы" : "коров")));
+
+        this.gameLog.add(String.format("Запрос #%d: %s -> %s", this.numberOfAttempts, guess, result));
         System.out.println(result);
         if (bulls == 4) {
             this.endGame();
@@ -56,28 +58,13 @@ public class BullsAndCows {
     }
 
     private void endGame() {
-        System.out.println(String.format("Строка была угадана за %d попыток.", this.numberOfAttempts));
-        this.saveGameLogToFile();
-    }
+        String resultGuess = String.format("Строка была угадана за %d %s.", this.numberOfAttempts,
+                (this.numberOfAttempts == 1 ? "попытку" : (this.numberOfAttempts >= 2 && this.numberOfAttempts <= 4 ? "попытки" : "попыток")));
 
-    private int getLastGameNumber() {
-        int lastGameNumber = 0;
-        try {
-            java.io.File file = new java.io.File("game_log.txt");
-            if (file.exists()) {
-                java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(file));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    if (line.startsWith("Game #")) {
-                        lastGameNumber = Integer.parseInt(line.split("#")[1].split(" ")[0]);
-                    }
-                }
-                br.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return lastGameNumber;
+        System.out.println(String.format("Строка была угадана за %d попыток.", this.numberOfAttempts));
+        System.out.println("Попоробуйте угадать новое число! Для выхода введите stop");
+        this.gameLog.add(resultGuess);
+        this.saveGameLogToFile();
     }
 
     private String generateSecretNumber() {
@@ -95,7 +82,7 @@ public class BullsAndCows {
         return sb.toString();
     }
 
-    private void saveGameLogToFile() {
+    public void saveGameLogToFile() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("game_log.txt", true));
             for (String log : this.gameLog) {

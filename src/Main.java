@@ -1,16 +1,20 @@
-
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        BullsAndCows game = new BullsAndCows();
+
+        boolean playing = true;
+        Game game = new Game();
         game.startGame();
         Scanner scanner = new Scanner(System.in);
-        while (game.getNumberOfAttempts() < 10) {
-            System.out.print("Enter your guess: ");
+        while (playing) {
+            System.out.print("Введите ваш запрос: ");
             String guess = scanner.nextLine();
-            game.guessNumber(guess);
+            if (guess.equalsIgnoreCase("stop")) {
+                playing = false;
+            } else {
+                game.guessNumber(guess);
+            }
         }
-        scanner.close();
     }
 }
