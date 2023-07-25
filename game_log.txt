@@ -1,0 +1,19 @@
+Game #1 02.07.2023 03:29 Secret number: 1064
+Guess #1: 1234 -> 2 bulls 0 cows
+Guess #2: 2134 -> 1 bulls 1 cows
+Guess #3: 1324 -> 2 bulls 0 cows
+Guess #4: 1564 -> 3 bulls 0 cows
+Guess #5: 1364 -> 3 bulls 0 cows
+Guess #6: 1764 -> 3 bulls 0 cows
+Guess #7: 1864 -> 3 bulls 0 cows
+Guess #8: 1964 -> 3 bulls 0 cows
+Guess #9: 1064 -> 4 bulls 0 cows
+Game #2 02.07.2023 03:32 Secret number: 6397
+Guess #1: 1234 -> 0 bulls 1 cows
+Guess #2: 1324 -> 1 bulls 0 cows
+Guess #3: 1334 -> 1 bulls 1 cows
+Guess #4: 5367 -> 2 bulls 1 cows
+Guess #5: 6357 -> 3 bulls 0 cows
+Guess #6: 1357 -> 2 bulls 0 cows
+Guess #7: 6387 -> 3 bulls 0 cows
+Guess #8: 6397 -> 4 bulls 0 cows
